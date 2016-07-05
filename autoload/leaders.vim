@@ -1,4 +1,4 @@
 function! leaders#ListLeaders()
-    let file = fnamemodify('leaders.py', ':p')
+    let file = fnamemodify('autoload/leaders.py', ':p')
     execute 'py3file ' . file
 endfunc
