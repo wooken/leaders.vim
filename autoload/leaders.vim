@@ -1,3 +1,3 @@
-function! ll#ListLeaders()
-    py3file autoload/ll.py
+function! leaders#ListLeaders()
+    py3file autoload/leaders.py
 endfunc
