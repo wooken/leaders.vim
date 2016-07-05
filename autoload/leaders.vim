@@ -1,4 +1,4 @@
+let s:autoload_path = fnamemodify(resolve(expand('<sfile>:p')), ':h')
 function! leaders#ListLeaders()
-    let file = fnamemodify('autoload/leaders.py', ':p')
-    execute 'py3file ' . file
+    execute 'py3file ' . s:autoload_path . '/leaders.py'
 endfunc
