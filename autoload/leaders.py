@@ -4,7 +4,7 @@ import re
 with open(os.path.expanduser('~') + '/.vimrc', 'r') as f:
     vimrc = f.read()
 
-matches = re.findall('[a-z]+map <leader>[a-z]+ [a-zA-Z0-9<>:]+', vimrc)
+matches = re.findall('[a-z]+map <leader>[^\s]+ [a-zA-Z0-9<>:]+', vimrc)
 
 for match in matches:
     parts = match.split(' ')
