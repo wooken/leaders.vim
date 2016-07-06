@@ -2,15 +2,23 @@ import os
 import re
 
 
+def is_map_function(text):
+    is_valid = re.match(r'[a-z]*map <leader>[^\s]+ [a-zA-Z0-9<>:]+(\s+"\s+[a-z ]+)?', text)
+    return bool(is_valid)
+
+
 def main():
     with open(os.path.expanduser('~') + '/.vimrc', 'r') as vimrc_fd:
-        vimrc = vimrc_fd.read()
+        vimrc = vimrc_fd.read().splitlines()
 
-    matches = re.findall(r'[a-z]+map <leader>[^\s]+ [a-zA-Z0-9<>:]+', vimrc)
+    matches = []
+    for line in vimrc:
+        if is_map_function(line):
+            matches.append(line)
 
     for match in matches:
-        parts = match.split(' ')
-        print('{} {}'.format(parts[1], parts[2]))
+        info = match.split('map')
+        print(info[1])
 
 if __name__ == '__main__':
     main()
