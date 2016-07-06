@@ -17,7 +17,7 @@ def main():
             matches.append(line)
 
     for match in matches:
-        info = match.split('map')
+        info = match.replace('<cr>', '').split('<leader>')
         print(info[1])
 
 if __name__ == '__main__':
