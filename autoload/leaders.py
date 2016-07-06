@@ -3,7 +3,7 @@ import re
 
 
 def is_map_function(text):
-    is_valid = re.match(r'[a-z]*map <leader>[^\s]+ [a-zA-Z0-9<>:]+(\s+"\s+[a-z ]+)?', text)
+    is_valid = re.match(r'[a-z]*map <[L|l][E|e][A|a][D|d][E|e][R|r]>[^\s]+ [a-zA-Z0-9<>:]+(\s+"\s+[a-z ]+)?', text)
     return bool(is_valid)
 
 
