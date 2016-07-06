@@ -17,8 +17,16 @@ def main():
             matches.append(line)
 
     for match in matches:
-        info = match.replace('<cr>', '').split('<leader>')
-        print(info[1])
+        binding_and_info = re.split(r'<[L|l][E|e][A|a][D|d][E|e][R|r]>', match)[1]
+        binding_and_info_split = binding_and_info.split(' ', 1)
+        binding = binding_and_info_split[0]
+        info = binding_and_info_split[1]
+        if '"' in info:
+            desc = re.split(r'\s+"\s+', info)[1]
+        else:
+            desc = info
+        spaces = ' ' * (8 - len(binding))
+        print('{}{}| {}'.format(binding, spaces, desc))
 
 if __name__ == '__main__':
     main()
