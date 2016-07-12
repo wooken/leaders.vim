@@ -40,27 +40,36 @@ def test_cmd_re():
     assert re.match(leaders.CMD_RE, 'validcmd') is not None
 
 
-def test_comment_re():
-    assert re.match(leaders.COMMENT_RE, '') is None
-    assert re.match(leaders.COMMENT_RE, '" this is a valid comment') is not None
-    assert re.match(leaders.COMMENT_RE, r'" this is also \:=<>() valid') is not None
+def test_extract_comments_and_mappings():
+    vimrc_in = [
+        '" Neomake: open location window',
+        'nnoremap <LEADER>lo :lopen<CR>',
+        'set tabstop=4               " number of spaces that a <tab> in the file counts for',
+        'set shiftwidth=4            " number of spaces to use for each step of (auto)indent',
+        '" Neomake: close location window',
+        'nnoremap <LEADER>lc :lclose<CR>',
+    ]
+    assert leaders.extract_comments_and_mappings(vimrc_in) == [
+        ('nnoremap <LEADER>lo :lopen<CR>', '" Neomake: open location window'),
+        ('nnoremap <LEADER>lc :lclose<CR>', '" Neomake: close location window'),
+    ]
 
 
-def test_extract_mapping_and_info():
-    assert leaders.extract_mapping_and_info('nnoremap <LEADER>c :Commands<CR>') == ['c', ':Commands<CR>']
-    assert leaders.extract_mapping_and_info('nnoremap <LEADER>] :lnext<CR>           " go to next error/warning') == [']', 'go to next error/warning']
+def test_is_comment_basic():
+    assert leaders.is_comment('" valid comment:.,!@#$%^&*()_+') is True
+    assert leaders.is_comment('not a " comment') is False
 
 
-def test_is_map_function_basic():
+def test_is_mapping_basic():
     for cmd in MAP_CMDS:
-        assert leaders.is_map_function('{} <leader>c :Commands<cr>'.format(cmd)) is True
-    assert leaders.is_map_function('this is just regular text') is False
+        assert leaders.is_mapping('{} <leader>c :Commands<cr>'.format(cmd)) is True
+    assert leaders.is_mapping('this is just regular text') is False
 
 
-def test_is_map_function_case_insensitive():
+def test_is_mapping_case_insensitive():
     for variation in LEADER_VARIATIONS:
-        assert leaders.is_map_function('nnoremap {}c :Commands<CR>'.format(variation)) is True
+        assert leaders.is_mapping('nnoremap {}c :Commands<CR>'.format(variation)) is True
 
 
-def test_is_map_function_comments():
-    assert leaders.is_map_function('nnoremap <leader>c :Commands<cr> " contains a comment') is True
+def test_is_mapping_no_mapping_inline_comment_support():
+    assert leaders.is_mapping('nnoremap <leader>c :Commands<cr> " contains an unsupported comment') is False
