@@ -48,8 +48,6 @@ def generate_output_list(comments_and_mappings: list) -> list:
             mapping_info = relevant.split(' ', 1)
             mapping = mapping_info[0]
             binding = mapping_info[1]
-
-            # deal with comment
             if comment:
                 desc = re.split(r'"\s+', comment)[1]
             else:
@@ -58,7 +56,9 @@ def generate_output_list(comments_and_mappings: list) -> list:
     return output
 
 
-def prettyprint(output: list) -> None:
+def prettyprint(output: list, title: str) -> None:
+    print(title)
+    print('-' * len(title))
     for line in output:
         spaces = ' ' * (6 - len(line[0]))
         print('{}{}| {}'.format(line[0], spaces, line[1]))
@@ -69,9 +69,7 @@ def main():
     vimrc = get_vimrc(vimrc_filename)
     matches = extract_comments_and_mappings(vimrc)
     output = generate_output_list(matches)
-    print(vimrc_filename)
-    print('-' * len(vimrc_filename))
-    prettyprint(output)
+    prettyprint(output, vimrc_filename)
 
 if __name__ == '__main__':
     main()
