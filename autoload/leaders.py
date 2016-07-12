@@ -1,7 +1,6 @@
 import os
 import re
 
-
 COMMENT_RE = r'^"\s+.*$'
 MAP_RE = '[a-z]*map'
 LEADER_RE = '<[L|l][E|e][A|a][D|d][E|e][R|r]>'
@@ -52,7 +51,7 @@ def generate_output_list(comments_and_mappings: list) -> list:
                 desc = re.split(r'"\s+', comment)[1]
             else:
                 desc = binding
-            output.append([mapping, desc])
+            output.append((mapping, desc))
     return output
 
 
