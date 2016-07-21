@@ -4,6 +4,10 @@
 
 List shortcuts mapped to `<Leader>`.
 
+## Requirements
+
+- Python 3
+
 ## Installation
 
 Use your favorite Vim plugin manager.
