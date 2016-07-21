@@ -55,12 +55,16 @@ def generate_output_list(comments_and_mappings: list) -> list:
     return output
 
 
-def prettyprint(output: list, title: str) -> None:
-    print(title)
-    print('-' * len(title))
-    for line in output:
+def prettyfmt(list_to_print: list, title: str) -> str:
+    output = ""
+    output += title + '\n'
+    output += '-' * len(title) + '\n'
+    for idx, line in enumerate(list_to_print):
         spaces = ' ' * (6 - len(line[0]))
-        print('{}{}| {}'.format(line[0], spaces, line[1]))
+        output += '{}{}| {}'.format(line[0], spaces, line[1])
+        if idx < len(list_to_print) - 1:
+            output += '\n'
+    return output
 
 
 def main():
@@ -68,7 +72,7 @@ def main():
     vimrc = get_vimrc(vimrc_filename)
     matches = extract_comments_and_mappings(vimrc)
     output = generate_output_list(matches)
-    prettyprint(output, vimrc_filename)
+    print(prettyfmt(output, vimrc_filename))
 
 if __name__ == '__main__':
     main()
