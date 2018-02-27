@@ -66,6 +66,11 @@ def test_is_mapping_basic():
     assert leaders.is_mapping('this is just regular text') is False
 
 
+def test_is_mapping_ctrl_commands():
+    for cmd in MAP_CMDS:
+        assert leaders.is_mapping('{} <leader>c :Commands<cr><C-w><C-w>'.format(cmd)) is True
+
+
 def test_is_mapping_case_insensitive():
     for variation in LEADER_VARIATIONS:
         assert leaders.is_mapping('nnoremap {}c :Commands<CR>'.format(variation)) is True

@@ -1,11 +1,10 @@
 import os
 import re
 
-COMMENT_RE = r'^"\s+.*$'
 MAP_RE = '[a-z]*map'
 LEADER_RE = '<[L|l][E|e][A|a][D|d][E|e][R|r]>'
 MAPPING_RE = r'[^\s]+'
-CMD_RE = '[a-zA-Z0-9<>:]+'
+CMD_RE = '[a-zA-Z0-9<>:-]+'
 
 
 def get_vimrc(filename) -> list:
@@ -15,7 +14,7 @@ def get_vimrc(filename) -> list:
 
 
 def is_comment(text: str) -> bool:
-    return bool(re.match(COMMENT_RE, text))
+    return text.startswith('" ')
 
 
 def is_mapping(text: str) -> bool:
