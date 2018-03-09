@@ -1,5 +1,4 @@
 import leaders
-import re
 
 VIMRC = """
 map <C-c> <ESC><ESC>
